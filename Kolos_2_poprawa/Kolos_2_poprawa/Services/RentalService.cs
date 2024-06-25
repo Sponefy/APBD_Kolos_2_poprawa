@@ -53,7 +53,7 @@ public class RentalService : IRentalService
 
     public async Task<int> AddRental(AddRentalDto rentalDto)
     {
-        var car = await _context.Cars.FirstOrDefault(c => c.Id == rentalDto.CarID);
+        var car = _context.Cars.FirstOrDefault(c => c.Id == rentalDto.CarID);
         
         if (car == null)
         {
@@ -65,6 +65,8 @@ public class RentalService : IRentalService
             LastName = rentalDto.Client.LastName,
             Address = rentalDto.Client.Address
         };
+        
+        _context.Clients.Add(client);
 
         await _context.SaveChangesAsync();
         
@@ -77,6 +79,8 @@ public class RentalService : IRentalService
             TotalPrice = (rentalDto.DateTo - rentalDto.DateFrom).Days * car.PricePerDay,
             Discount = null
         };
+        
+        _context.CarRentals.Add(rental);
 
         await _context.SaveChangesAsync();
 
