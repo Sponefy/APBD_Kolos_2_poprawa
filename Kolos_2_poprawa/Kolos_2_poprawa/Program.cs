@@ -10,9 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<KolosContext>(
+builder.Services.AddDbContext<RentalContext>(
     option => option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-builder.Services.AddScoped<IKolosService, KolosService>();
+builder.Services.AddScoped<IRentalService, RentalService>();
 
 var app = builder.Build();
 
@@ -26,3 +26,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
+
+// dotnet ef migrations add InitialCreate
+// dotnet ef database update
